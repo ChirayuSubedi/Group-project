@@ -3,33 +3,6 @@
 
 
 
-
-<?php 
-
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-$pdo = new PDO('mysql:dbname=group;host=localhost','root','root');
-
-if(isset($_POST['submit'])) {
-  $insert_query = 'INSERT INTO modules(module_id, module_name, module_level, exam_structure, merits_point, staff_id )VALUES(:module_id, :module_name, :module_level, :exam_structure, :merits_point, :staff_id)';
-
-
-  
-  $add = $pdo->prepare($insert_query);
-
-  
-  unset($_POST['submit']);
-  if($add->execute($_POST)){
-    echo "<h2> Course added successful</h2>" ;
-  }  
-  else{
-    echo "<h1>Oops..! error in adding data</h1>" ;
-    }
-  }
-?>
-
 <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
 		<div class="row">
 			<ol class="breadcrumb">
@@ -47,9 +20,38 @@ if(isset($_POST['submit'])) {
 		</div><!--/.row-->
 
 
+
+<?php 
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+$pdo = new PDO('mysql:dbname=group;host=localhost','root','root');
+
+if(isset($_POST['submit'])) {
+  $insert_query = 'INSERT INTO modules(module_name, module_level, exam_structure, merits_point, staff_id )VALUES(:module_name, :module_level, :exam_structure, :merits_point, :staff_id)';
+
+
+  
+  $add = $pdo->prepare($insert_query);
+
+  
+  unset($_POST['submit']);
+  if($add->execute($_POST)){
+    echo "<h2> Course added successful</h2>" ;
+  }  
+  else{
+    echo "<h1>Oops..! error in adding data</h1>" ;
+    }
+  }
+?>
+
+
+
 		
 	<div>
-		  <form action="admin-addcourse.php" method="POST" enctype="multipart/form-data">
+		  <form action="admin-addmodule.php" method="POST" enctype="multipart/form-data">
 			  <div class="container">
 			        <label><b>Module Name</b></label>
 			        <input type="text" placeholder="Course name" name="module_name" ><br><br>
@@ -67,14 +69,14 @@ if(isset($_POST['submit'])) {
 			        <input type="text" placeholder="merits point" name="merits_point"><br><br>
 
 			        <label><b>staff </b></label>
-			        <select name="ID">//<!-- review table -->
+			        <select name="staff_id">//<!-- review table -->
 						<?php
 						//<!-- review table -->
 						$tmt=$pdo->prepare("SELECT * FROM module_leaders");
 						$tmt->execute();
 						foreach ($tmt as $key ) {?>
 					
-						<option value="<?php echo $key['ID'];?>"> <?php echo $key['staff_id']; ?></option>
+						<option value="<?php echo $key['staff_id'];?>"> <?php echo $key['staff_id']; ?></option>
 						<?php
 						}
 						?>

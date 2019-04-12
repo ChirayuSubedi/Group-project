@@ -13,7 +13,7 @@ error_reporting(E_ALL);
 $pdo = new PDO('mysql:dbname=group;host=localhost','root','root');
 
 if(isset($_POST['submit'])) {
-  $insert_query = 'INSERT INTO assignments(assignment_name, details, issue_date, due_date )VALUES(:assignment_name, :details, :issue_date, :due_date)';
+  $insert_query = 'INSERT INTO assignments(assignment_name, module_id, details, issue_date, due_date,)VALUES(:assignment_name, :module_id, :details, :issue_date, :due_date)';
 
 
   
@@ -55,25 +55,22 @@ if(isset($_POST['submit'])) {
 			        <input type="text" placeholder="Course name" name="assignment_name" ><br><br>
 
 			        <label><b>Assignment Name</b></label>
+			         
 
-			        <?php 
 
-						$stmt=$pdo->prepare("SELECT * FROM modules");  // <!-- dsipaly rewview table -->
-
-								$stmt->execute(); 
-					foreach ($stmt as $key) { ?><!-- dsipaly rewview table -->
-
-					?>
-
-			        <select><?php echo $key["module_id"]; ?></select>
-
-			        <?php 
-							
-
+			        <select name="module_id">//<!-- review table -->
+						<?php
+						//<!-- review table -->
+						$tmt=$pdo->prepare("SELECT * FROM modules");
+						$tmt->execute();
+						foreach ($tmt as $key ) {?>
+					
+						<option value="<?php echo $key['module_id'];?>"> <?php echo $key['module_name']; ?></option>
+						<?php
 						}
-
-
-						 ?>
+						?>
+						
+					</select><br><br>
 
 			        <label><b >Details</b></label>
 			        <input  type="text" placeholder="Details " name="details" ><br><br>
